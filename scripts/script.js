@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const currentPage = window.location.pathname.split("/").pop();
 
-  if (currentPage !== "index.html") {
+  if (currentPage !== "index.html" || currentPage !== "") {
     fetch("navigation.html")
       .then((response) => {
         if (!response.ok)
