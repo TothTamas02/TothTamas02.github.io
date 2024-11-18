@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const currentPage = window.location.pathname.split("/").pop();
 
-  if (currentPage !== "index.html" || currentPage !== "") {
+  if (currentPage !== "index.html" && currentPage !== "") {
     fetch("navigation.html")
       .then((response) => {
         if (!response.ok)
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     xhr.send();
   }
-  if (currentPage === "index.html" || currentPage !== "") {
+  if (currentPage === "index.html" || currentPage === "") {
     loadContent("pages/intro.html", "intro");
   }
 });
