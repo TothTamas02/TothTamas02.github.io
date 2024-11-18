@@ -1,16 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("navigation.html")
-    .then((response) => {
-      if (!response.ok)
-        throw new Error("Hiba történt a navigáció betöltésekor!");
-      return response.text();
-    })
-    .then((data) => {
-      document.getElementById("navigation").innerHTML = data;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  const currentPage = window.location.pathname.split("/").pop();
+
+  if (currentPage !== "index.html") {
+    fetch("navigation.html")
+      .then((response) => {
+        if (!response.ok)
+          throw new Error("Hiba történt a navigáció betöltésekor!");
+        return response.text();
+      })
+      .then((data) => {
+        document.getElementById("navigation").innerHTML = data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   const form = document.getElementById("add-product-form");
   const productList = document.getElementById("product-list");
@@ -81,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             this.responseText;
         }
       } else {
-        console.error("Hiba történt a tartalom betöltésekor: ${this.status}");
+        console.error("Hiba történt a tartalom betöltésekor!");
       }
     };
 
@@ -91,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     xhr.send();
   }
-
-  loadContent("intro.html", "intro");
+  if (currentPage === "index.html") {
+    loadContent("pages/intro.html", "intro");
+  }
 });
