@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     xhr.send();
   }
-  if (currentPage === "index.html") {
+  if (currentPage === "index.html" || currentPage !== "") {
     loadContent("pages/intro.html", "intro");
   }
 });
