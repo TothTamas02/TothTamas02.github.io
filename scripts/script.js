@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${product.price.toFixed(2)}  HUF</td>
             `;
       row.style.opacity = "0";
-      row.style.transform = "scale(1.2";
+      row.style.transform = "scale(1.2)";
       productList.appendChild(row);
 
       setTimeout(() => {
@@ -75,27 +75,42 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function loadContent(url, targetElementId) {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-
-    xhr.onload = function () {
-      if (this.status === 200) {
-        if (document.getElementById(targetElementId)) {
-          document.getElementById(targetElementId).innerHTML =
-            this.responseText;
-        }
-      } else {
-        console.error("Hiba történt a tartalom betöltésekor!");
-      }
-    };
-
-    xhr.onerror = function () {
-      console.error("Hálózati hiba történt a tartalom betöltésekor!");
-    };
-
-    xhr.send();
+    fetch(url)
+      .then((response) => {
+        if (!response.ok)
+          throw new Error("Hiba történt a tartalom betöltésekor!");
+        return response.text();
+      })
+      .then((data) => {
+        const target = document.getElementById(targetElementId);
+        if (target) target.innerHTML = data;
+      })
+      .catch((error) => console.error(error));
   }
+
   if (currentPage === "index.html" || currentPage === "") {
     loadContent("pages/intro.html", "intro");
+  }
+
+  function exportProducts() {
+    const data = JSON.stringify(products, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "products.json";
+    a.click();
+  }
+
+  function deleteProduct(index) {
+    products.splice(index, 1);
+    localStorage.setItem("products", JSON.stringify(products));
+    updateProductList();
+  }
+
+  function editProduct(index, updatedProduct) {
+    products[index] = updatedProduct;
+    localStorage.setItem("products", JSON.stringify(products));
+    updateProductList();
   }
 });

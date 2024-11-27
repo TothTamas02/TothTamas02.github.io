@@ -3,6 +3,21 @@ $secondary-color: #fff;
 $text-color: #333;
 $background-color: #f9f9f9;
 $table-border-color: #ccc;
+$error-color: #dc3545;
+$success-color: #28a745;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+$headings-font-family: "Helvetica Neue", sans-serif;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+@mixin responsive($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -20,7 +35,6 @@ header {
 
   h1 {
     margin: 0;
-    font-size: 1.8rem;
   }
 
   nav {
@@ -32,8 +46,6 @@ header {
       justify-content: center;
 
       li {
-        margin: 0 10px;
-
         a {
           color: $secondary-color;
           text-decoration: none;
@@ -41,10 +53,28 @@ header {
       }
     }
   }
+
+  @media (max-width: $breakpoint-md) {
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    nav ul {
+      flex-direction: column;
+      li {
+        margin: 5px 0;
+      }
+    }
+  }
 }
 
 main {
   padding: 20px;
+
+  @include responsive($breakpoint-md) {
+    max-width: 960px;
+    margin: 0 auto;
+  }
 
   section {
     margin-bottom: 20px;
